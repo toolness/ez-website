@@ -10,6 +10,16 @@ export const CONTENT_PAGE_NAMES = ["splash_page"] as const;
 
 export type ContentPageName = typeof CONTENT_PAGE_NAMES[number];
 
+function readJsonFile<T>(filename: string): T {
+  return JSON.parse(fs.readFileSync(filename, { encoding: "utf-8" }));
+}
+
+function writeJsonFile<T>(filename: string, value: T) {
+  fs.writeFileSync(filename, JSON.stringify(value, null, 2), {
+    encoding: "utf-8",
+  });
+}
+
 function filenameForContentPage(name: string): string {
   return path.join(DATA_DIR, `_content__${name}.json`);
 }
@@ -18,19 +28,11 @@ export function writeContentPage(
   name: ContentPageName,
   page: CachedPageChildren
 ) {
-  fs.writeFileSync(
-    filenameForContentPage(name),
-    JSON.stringify(page, null, 2),
-    {
-      encoding: "utf-8",
-    }
-  );
+  writeJsonFile(filenameForContentPage(name), page);
 }
 
 export function readContentPage(name: ContentPageName): CachedPageChildren {
-  return JSON.parse(
-    fs.readFileSync(filenameForContentPage(name), { encoding: "utf-8" })
-  );
+  return readJsonFile(filenameForContentPage(name));
 }
 
 export const ROOT_DIR = path.normalize(path.join(__dirname, ".."));
@@ -52,34 +54,24 @@ export const TRANSFORMED_IMAGES_JSON_PATH = path.join(
 export const STATIC_DIR = path.join(ROOT_DIR, "static");
 
 export function writeProjectPages(pages: CachedProjectPage[]) {
-  fs.writeFileSync(PROJECT_PAGES_JSON_PATH, JSON.stringify(pages, null, 2));
+  writeJsonFile(PROJECT_PAGES_JSON_PATH, pages);
 }
 
 export function readProjectPages(): CachedProjectPage[] {
-  return JSON.parse(
-    fs.readFileSync(PROJECT_PAGES_JSON_PATH, { encoding: "utf-8" })
-  );
+  return readJsonFile(PROJECT_PAGES_JSON_PATH);
 }
 
 export function readChildBlocks(page: CachedPageChildren): Block[] {
-  return JSON.parse(
-    fs.readFileSync(path.join(DATA_DIR, page.childrenPath), {
-      encoding: "utf-8",
-    })
-  );
+  return readJsonFile(path.join(DATA_DIR, page.childrenPath));
 }
 
 export function readNotionPage(page: CachedProjectPage): Page {
-  return JSON.parse(
-    fs.readFileSync(path.join(DATA_DIR, page.path), { encoding: "utf-8" })
-  );
+  return readJsonFile(path.join(DATA_DIR, page.path));
 }
 
 function readTransformedImages(): TransformedImage[] {
   if (!fs.existsSync(TRANSFORMED_IMAGES_JSON_PATH)) return [];
-  return JSON.parse(
-    fs.readFileSync(TRANSFORMED_IMAGES_JSON_PATH, { encoding: "utf-8" })
-  );
+  return readJsonFile(TRANSFORMED_IMAGES_JSON_PATH);
 }
 
 export function readTransformedImagesMap(): Map<string, TransformedImage> {
@@ -87,10 +79,7 @@ export function readTransformedImagesMap(): Map<string, TransformedImage> {
 }
 
 export function writeTransformedImages(value: TransformedImage[]) {
-  fs.writeFileSync(
-    TRANSFORMED_IMAGES_JSON_PATH,
-    JSON.stringify(value, null, 2)
-  );
+  writeJsonFile(TRANSFORMED_IMAGES_JSON_PATH, value);
 }
 
 export function ensureDirsExist(dirs: string[]) {
