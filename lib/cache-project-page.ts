@@ -53,7 +53,12 @@ async function cacheImageBlocks(
     return [];
   }
 
-  // TODO: Download more than just the first image.
+  if (imageBlocks.length > 1) {
+    throw new Error(
+      "TODO: Need to implement downloading more than the first image!"
+    );
+  }
+
   let imageBlock = imageBlocks[0];
   let url: string;
 
