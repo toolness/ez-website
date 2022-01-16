@@ -3,23 +3,33 @@ import fs from "fs";
 
 import type { CachedProjectPage } from "./cache-project-page";
 import type { TransformedImage } from "./transform-image";
-import type { Page } from "@notionhq/client/build/src/api-types";
+import type { Page, Block } from "@notionhq/client/build/src/api-types";
 import { CachedPageChildren } from "./cache-page-children";
 
 export const CONTENT_PAGE_NAMES = ["splash_page"] as const;
 
 export type ContentPageName = typeof CONTENT_PAGE_NAMES[number];
 
+function filenameForContentPage(name: string): string {
+  return path.join(DATA_DIR, `_content__${name}.json`);
+}
+
 export function writeContentPage(
   name: ContentPageName,
   page: CachedPageChildren
 ) {
   fs.writeFileSync(
-    path.join(DATA_DIR, `_content__${name}.json`),
+    filenameForContentPage(name),
     JSON.stringify(page, null, 2),
     {
       encoding: "utf-8",
     }
+  );
+}
+
+export function readContentPage(name: ContentPageName): CachedPageChildren {
+  return JSON.parse(
+    fs.readFileSync(filenameForContentPage(name), { encoding: "utf-8" })
   );
 }
 
@@ -51,7 +61,15 @@ export function readProjectPages(): CachedProjectPage[] {
   );
 }
 
-export function readProjectPage(page: CachedProjectPage): Page {
+export function readChildBlocks(page: CachedPageChildren): Block[] {
+  return JSON.parse(
+    fs.readFileSync(path.join(DATA_DIR, page.childrenPath), {
+      encoding: "utf-8",
+    })
+  );
+}
+
+export function readNotionPage(page: CachedProjectPage): Page {
   return JSON.parse(
     fs.readFileSync(path.join(DATA_DIR, page.path), { encoding: "utf-8" })
   );
