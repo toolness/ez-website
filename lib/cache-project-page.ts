@@ -18,13 +18,16 @@ import { assertUnreachable } from "./util";
 
 const PICTURE_PROPERTY_NAME = "Pictures";
 
-export type CachedProjectPage = {
-  path: string;
+export type CachedPageChildren = {
   childrenPath: string;
-  icon?: CachedFile;
-  pictures: CachedFile[];
   imageBlocks: CachedFile[];
 };
+
+export type CachedProjectPage = {
+  path: string;
+  icon?: CachedFile;
+  pictures: CachedFile[];
+} & CachedPageChildren;
 
 export function getPageImages(page: CachedProjectPage): CachedFile[] {
   const result: CachedFile[] = [];
@@ -121,6 +124,40 @@ async function cacheIcon(
   }
 }
 
+export async function cachePageChildren(options: {
+  pageId: string;
+  dataDir: string;
+  agentContext: AgentContext;
+  client: Client;
+  forceRefresh: boolean;
+}): Promise<CachedPageChildren> {
+  const { pageId, dataDir, agentContext, client, forceRefresh } = options;
+  const cacheFileOptions: CacheFileOptions = {
+    dataDir,
+    agentContext,
+  };
+  const childrenPath = path.join(dataDir, `${pageId}-children.json`);
+  const fetchChildren = !fs.existsSync(childrenPath) || forceRefresh;
+  if (fetchChildren) {
+    const children: Block[] = [];
+    for await (const child of iterBlockChildren(client, pageId)) {
+      children.push(child);
+    }
+    fs.writeFileSync(childrenPath, JSON.stringify(children, null, 2));
+  }
+  const children: Block[] = JSON.parse(
+    fs.readFileSync(childrenPath, { encoding: "utf-8" })
+  );
+  const imageBlocks = await cacheImageBlocks(
+    pageId,
+    children,
+    client,
+    cacheFileOptions
+  );
+
+  return { childrenPath: path.relative(dataDir, childrenPath), imageBlocks };
+}
+
 export async function cacheProjectPage(options: {
   page: Page;
   dataDir: string;
@@ -133,41 +170,30 @@ export async function cacheProjectPage(options: {
     agentContext,
   };
   const pagePath = path.join(dataDir, `${page.id}.json`);
-  const childrenPath = path.join(dataDir, `${page.id}-children.json`);
-  let fetchChildren = !fs.existsSync(childrenPath);
+  let forceRefreshChildren = false;
   if (fs.existsSync(pagePath)) {
     const cachedPage: Page = JSON.parse(
       fs.readFileSync(pagePath, { encoding: "utf-8" })
     );
     if (cachedPage.last_edited_time !== page.last_edited_time) {
-      fetchChildren = true;
+      forceRefreshChildren = true;
     }
   }
-  if (fetchChildren) {
-    const children: Block[] = [];
-    for await (const child of iterBlockChildren(client, page.id)) {
-      children.push(child);
-    }
-    fs.writeFileSync(childrenPath, JSON.stringify(children, null, 2));
-  }
-  const children: Block[] = JSON.parse(
-    fs.readFileSync(childrenPath, { encoding: "utf-8" })
-  );
+  const cachedChildren = await cachePageChildren({
+    pageId: page.id,
+    dataDir,
+    client,
+    agentContext,
+    forceRefresh: forceRefreshChildren,
+  });
   const pictures = await cachePictures(page, cacheFileOptions);
   const icon = await cacheIcon(page, cacheFileOptions);
-  const imageBlocks = await cacheImageBlocks(
-    page.id,
-    children,
-    client,
-    cacheFileOptions
-  );
 
   fs.writeFileSync(pagePath, JSON.stringify(page, null, 2));
   return {
     path: path.relative(dataDir, pagePath),
-    childrenPath: path.relative(dataDir, childrenPath),
     icon,
     pictures,
-    imageBlocks,
+    ...cachedChildren,
   };
 }
