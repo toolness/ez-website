@@ -4,6 +4,24 @@ import fs from "fs";
 import type { CachedProjectPage } from "./cache-project-page";
 import type { TransformedImage } from "./transform-image";
 import type { Page } from "@notionhq/client/build/src/api-types";
+import { CachedPageChildren } from "./cache-page-children";
+
+export const CONTENT_PAGE_NAMES = ["splash_page"] as const;
+
+export type ContentPageName = typeof CONTENT_PAGE_NAMES[number];
+
+export function writeContentPage(
+  name: ContentPageName,
+  page: CachedPageChildren
+) {
+  fs.writeFileSync(
+    path.join(DATA_DIR, `_content__${name}.json`),
+    JSON.stringify(page, null, 2),
+    {
+      encoding: "utf-8",
+    }
+  );
+}
 
 export const ROOT_DIR = path.normalize(path.join(__dirname, ".."));
 
