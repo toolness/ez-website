@@ -1,0 +1,25 @@
+{
+  "name": "ez-website",
+  "version": "1.0.0",
+  "description": "Eric Zimmerman's website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fetch": "node cache-data.js && node transform-images.js",
+    "prettier:check": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput"
+  },
+  "author": "Atul Varma <varmaa@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@notionhq/client": "0.3.3",
+    "@types/mime-types": "^2.1.1",
+    "dotenv": "12.0.4",
+    "jimp": "^0.16.1",
+    "mime-types": "^2.1.34",
+    "prettier": "^2.5.1",
+    "typescript": "4.5.4"
+  }
+}
