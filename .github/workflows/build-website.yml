@@ -20,3 +20,5 @@ jobs:
         run: npm run fetch
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+      - name: Build website
+        run: npm run build-website

@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "node cache-data.js && node transform-images.js",
+    "build-website": "node build-website.js",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "build": "tsc",

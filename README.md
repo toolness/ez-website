@@ -17,8 +17,17 @@ In a separate terminal, run:
 npm run watch
 ```
 
+(Alternatively, if you don't need to develop the site itself,
+you can just run `npm run build` in the current terminal.)
+
 To cache all data from Notion, run:
 
 ```
 npm run fetch
+```
+
+To use the cached data to build the website, run:
+
+```
+npm run build-website
 ```
