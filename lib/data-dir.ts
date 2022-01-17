@@ -82,11 +82,28 @@ export function writeTransformedImages(value: TransformedImage[]) {
   writeJsonFile(TRANSFORMED_IMAGES_JSON_PATH, value);
 }
 
+export function writeStaticTextFile(filename: string, content: string): string {
+  const fullPath = path.join(STATIC_DIR, filename);
+  ensureDirExists(path.dirname(fullPath));
+  fs.writeFileSync(fullPath, content, {
+    encoding: "utf-8",
+  });
+  return fullPath;
+}
+
+export function rootRelativePath(pathname: string): string {
+  return path.relative(ROOT_DIR, pathname);
+}
+
+function ensureDirExists(dirName: string) {
+  if (!fs.existsSync(dirName)) {
+    fs.mkdirSync(dirName, { recursive: true });
+  }
+}
+
 export function ensureDirsExist(dirs: string[]) {
   for (let dirName of dirs) {
-    if (!fs.existsSync(dirName)) {
-      fs.mkdirSync(dirName, { recursive: true });
-    }
+    ensureDirExists(dirName);
   }
 }
 

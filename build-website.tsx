@@ -1,5 +1,6 @@
 import React from "react";
 import { loadContentPageAssets, loadProjectAssets } from "./lib/assets";
+import { rootRelativePath, writeStaticTextFile } from "./lib/data-dir";
 import { Page } from "./lib/templating/page";
 import { StaticRenderer } from "./lib/templating/static-renderer";
 
@@ -11,7 +12,8 @@ async function main() {
       projects={loadProjectAssets()}
     />
   );
-  console.log(html);
+  const indexPath = writeStaticTextFile("index.html", html);
+  console.log(`Wrote ${rootRelativePath(indexPath)}.`);
   // TODO: Log any warnings.
 }
 
