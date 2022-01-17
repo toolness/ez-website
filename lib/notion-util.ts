@@ -2,6 +2,8 @@ import type { Client } from "@notionhq/client";
 import type {
   Page,
   FilesPropertyValue,
+  PropertyValue,
+  RichText,
 } from "@notionhq/client/build/src/api-types";
 
 export type FileWithName = FilesPropertyValue["files"][0];
@@ -61,4 +63,55 @@ export async function* iterBlockChildren(client: Client, blockId: string) {
       yield item;
     }
   }
+}
+
+export function getMultiSelect(value: PropertyValue): string[] {
+  if (value.type !== "multi_select") {
+    throw new Error(`Expected property to be multi-select, not ${value.type}!`);
+  }
+  return value.multi_select
+    .map((ms) => ms.name || "")
+    .filter((name) => Boolean(name));
+}
+
+export function getProperty(page: Page, name: string): PropertyValue {
+  if (!page.properties[name]) {
+    throw new Error(`Expected to find property "${name}" in page!`);
+  }
+  return page.properties[name];
+}
+
+export function joinRichTextPlaintext(richText: RichText[]): string | null {
+  return (
+    richText
+      .map((rt) => rt.plain_text)
+      .join("")
+      .trim() || null
+  );
+}
+
+export function getNonEmptyTitlePlaintext(value: PropertyValue): string {
+  if (value.type !== "title") {
+    throw new Error(`Expected property to be title, not ${value.type}!`);
+  }
+  const result = joinRichTextPlaintext(value.title);
+  if (!result) {
+    throw new Error(`Expected title to be non-empty!`);
+  }
+  return result;
+}
+
+export function getOptionalRichPlaintext(value: PropertyValue): string | null {
+  if (value.type !== "rich_text") {
+    throw new Error(`Expected property to be rich text, not ${value.type}!`);
+  }
+  return joinRichTextPlaintext(value.rich_text);
+}
+
+export function getNonEmptyRichPlaintext(value: PropertyValue): string {
+  const result = getOptionalRichPlaintext(value);
+  if (!result) {
+    throw new Error(`Expected rich text property to be non-empty!`);
+  }
+  return result;
 }
