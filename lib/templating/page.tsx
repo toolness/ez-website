@@ -11,10 +11,15 @@ export const Page: React.FC<PageProps> = (props) => {
   return (
     <html>
       <head>
-        <title>Eric Zimmerman's website</title>
+        <title>Eric Zimmerman's extremely work-in-progress website</title>
       </head>
       <body>
-        <h1>Eric Zimmerman's website</h1>
+        <h1>Eric Zimmerman's extremely work-in-progress website</h1>
+        <p>
+          <strong>This is an extreme work-in-progress!</strong> If you want to
+          see Eric's real website, visit{" "}
+          <a href="https://ericzimmerman.com">ericzimmerman.com</a>.
+        </p>
         <h2>Splash page content</h2>
         <NotionPageContent data={props.contentPages.splash_page} />
         <h2>Projects</h2>
