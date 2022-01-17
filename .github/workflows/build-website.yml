@@ -15,6 +15,7 @@ jobs:
           path: data
           key: data_v1
       - run: npm install
+      - run: npm run build
       - name: Fetch content from Notion
         run: npm run fetch
         env:
