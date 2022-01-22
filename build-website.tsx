@@ -4,7 +4,7 @@ import {
   loadContentPageAssets,
   loadProjectAssets,
 } from "./lib/assets";
-import { writeStaticTextFile } from "./lib/data-dir";
+import { STATIC_DIR, writeStaticTextFile } from "./lib/data-dir";
 import { ProjectsPage } from "./lib/templating/pages/projects-page";
 import { SplashPage } from "./lib/templating/pages/splash-page";
 import { StaticRenderer } from "./lib/templating/static-renderer";
@@ -28,6 +28,7 @@ async function main() {
   for (const warning of renderer.warnings) {
     console.log(`WARNING: ${warning}`);
   }
+  console.log(`The generated website is in ${STATIC_DIR}.`);
 }
 
 main().catch((e) => {

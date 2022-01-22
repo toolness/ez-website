@@ -85,6 +85,13 @@ export class StaticRenderer {
       })
     );
   }
+
+  logWarning(message: string) {
+    if (this.currentPage) {
+      message = `${message} (on "${this.currentPage}")`;
+    }
+    this.warnings.push(message);
+  }
 }
 
 let currentStaticRenderer: StaticRenderer | undefined = new StaticRenderer();
