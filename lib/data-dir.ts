@@ -2,7 +2,6 @@ import path from "path";
 import fs from "fs";
 
 import type { CachedProjectPage } from "./cache-project-page";
-import type { TransformedImage } from "./transform-image";
 import type { Page, Block } from "@notionhq/client/build/src/api-types";
 import { CachedPageChildren } from "./cache-page-children";
 
@@ -44,13 +43,6 @@ export const PROJECT_PAGES_JSON_PATH = path.join(
   `_project-pages.json`
 );
 
-export const TRANSFORMED_DIR = path.join(DATA_DIR, "transformed");
-
-export const TRANSFORMED_IMAGES_JSON_PATH = path.join(
-  DATA_DIR,
-  "_transformed-images.json"
-);
-
 export const STATIC_DIR = path.join(ROOT_DIR, "static");
 
 export function writeProjectPages(pages: CachedProjectPage[]) {
@@ -67,19 +59,6 @@ export function readChildBlocks(page: CachedPageChildren): Block[] {
 
 export function readNotionPage(page: CachedProjectPage): Page {
   return readJsonFile(path.join(DATA_DIR, page.path));
-}
-
-function readTransformedImages(): TransformedImage[] {
-  if (!fs.existsSync(TRANSFORMED_IMAGES_JSON_PATH)) return [];
-  return readJsonFile(TRANSFORMED_IMAGES_JSON_PATH);
-}
-
-export function readTransformedImagesMap(): Map<string, TransformedImage> {
-  return new Map(readTransformedImages().map((ti) => [ti.originalPath, ti]));
-}
-
-export function writeTransformedImages(value: TransformedImage[]) {
-  writeJsonFile(TRANSFORMED_IMAGES_JSON_PATH, value);
 }
 
 export function writeStaticTextFile(filename: string, content: string): string {
@@ -107,4 +86,4 @@ export function ensureDirsExist(dirs: string[]) {
   }
 }
 
-ensureDirsExist([DATA_DIR, TRANSFORMED_DIR]);
+ensureDirsExist([DATA_DIR]);

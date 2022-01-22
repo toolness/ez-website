@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fetch": "node cache-data.js && node transform-images.js",
+    "fetch": "node cache-data.js",
     "build-website": "node build-website.js",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
