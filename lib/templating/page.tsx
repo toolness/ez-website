@@ -48,8 +48,8 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
       <h3>{data.name}</h3>
       <p>context: {data.context}</p>
       <p>tags: {data.tags.join(", ")}</p>
-      {data.pictures.map((picture) => {
-        return <Picture source={picture} />;
+      {data.pictures.map((picture, i) => {
+        return <Picture key={i} source={picture} />;
       })}
       <NotionPageContent data={data} />
     </>
