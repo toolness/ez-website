@@ -5,18 +5,16 @@ import {
   loadProjectAssets,
 } from "./lib/assets";
 import { writeStaticTextFile } from "./lib/data-dir";
-import { Page } from "./lib/templating/page";
+import { ProjectsPage } from "./lib/templating/pages/projects-page";
+import { SplashPage } from "./lib/templating/pages/splash-page";
 import { StaticRenderer } from "./lib/templating/static-renderer";
 
 async function main() {
   const renderer = new StaticRenderer();
-  renderer.renderPage(
-    "/",
-    <Page
-      contentPages={loadContentPageAssets()}
-      projects={loadProjectAssets()}
-    />
-  );
+  const contentPages = loadContentPageAssets();
+  const projects = loadProjectAssets();
+  renderer.renderPage("/", <SplashPage content={contentPages.splash_page} />);
+  renderer.renderPage("/projects/", <ProjectsPage projects={projects} />);
   for (const binaryAsset of renderer.getBinaryAssets()) {
     copyBinaryAsset(binaryAsset);
     console.log(`Wrote ${binaryAsset.destination}.`);
