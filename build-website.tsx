@@ -22,7 +22,9 @@ async function main() {
   }
   const indexPath = writeStaticTextFile("index.html", html);
   console.log(`Wrote ${rootRelativePath(indexPath)}.`);
-  // TODO: Log any warnings.
+  for (const warning of renderer.warnings) {
+    console.log(`WARNING: ${warning}`);
+  }
 }
 
 main().catch((e) => {
