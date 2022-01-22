@@ -7,15 +7,14 @@ const IMAGES_DIR = "images";
 
 export const Picture: React.FC<{ source: CachedFile }> = ({ source }) => {
   const filename = path.basename(source.path);
-  const destinationParts = [IMAGES_DIR, filename];
-  StaticRenderer.current.addBinaryAsset({
+  const src = StaticRenderer.current.linkToBinaryAsset({
     source: source.path,
-    destination: path.join(...destinationParts),
+    friendlyPath: `/${IMAGES_DIR}/${filename}`,
   });
   const { imageSize } = source.metadata;
   return (
     <img
-      src={path.posix.join(...destinationParts)}
+      src={src}
       width={imageSize?.width}
       height={imageSize?.height}
       // TODO: Add alt text somehow... Blerg.

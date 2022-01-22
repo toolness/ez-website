@@ -4,13 +4,14 @@ import {
   loadContentPageAssets,
   loadProjectAssets,
 } from "./lib/assets";
-import { rootRelativePath, writeStaticTextFile } from "./lib/data-dir";
+import { writeStaticTextFile } from "./lib/data-dir";
 import { Page } from "./lib/templating/page";
 import { StaticRenderer } from "./lib/templating/static-renderer";
 
 async function main() {
   const renderer = new StaticRenderer();
-  const html = renderer.render(
+  renderer.renderPage(
+    "/",
     <Page
       contentPages={loadContentPageAssets()}
       projects={loadProjectAssets()}
@@ -20,8 +21,10 @@ async function main() {
     copyBinaryAsset(binaryAsset);
     console.log(`Wrote ${binaryAsset.destination}.`);
   }
-  const indexPath = writeStaticTextFile("index.html", html);
-  console.log(`Wrote ${rootRelativePath(indexPath)}.`);
+  for (const page of renderer.getRenderedPages()) {
+    writeStaticTextFile(page.path.filesystemPath, page.html);
+    console.log(`Wrote ${page.path.filesystemPath}.`);
+  }
   for (const warning of renderer.warnings) {
     console.log(`WARNING: ${warning}`);
   }
