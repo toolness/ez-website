@@ -4,12 +4,19 @@ import http, { Agent } from "http";
 import https from "https";
 import mime from "mime-types";
 import fetch, { Response, RequestInit } from "node-fetch";
+import Jimp from "jimp";
+
+export type Dimensions = {
+  width: number;
+  height: number;
+};
 
 export type Metadata = {
   baseUrl: string;
   contentType: string;
   etag: string | null;
   lastModified: string | null;
+  imageSize?: Dimensions;
   // TODO: Consider also storing age and cache-control headers, as
   // some edge servers use these instead of etag/last-modified.
 };
@@ -18,6 +25,14 @@ export type CachedFile = {
   path: string;
   metadata: Metadata;
 };
+
+async function getImageSize(bytes: Buffer): Promise<Dimensions> {
+  const image = await Jimp.read(bytes);
+  return {
+    width: image.getWidth(),
+    height: image.getHeight(),
+  };
+}
 
 function getBaseUrl(url: string): string {
   const parsed = new URL(url);
@@ -125,6 +140,9 @@ export async function cacheFile(
       chunks.push(chunk);
     }
     const contents = Buffer.concat(chunks);
+    if (newMetadata.contentType.startsWith("image/")) {
+      newMetadata.imageSize = await getImageSize(contents);
+    }
     fs.writeFileSync(filePath, contents);
     fs.writeFileSync(metadataPath, JSON.stringify(newMetadata, null, 2));
 
