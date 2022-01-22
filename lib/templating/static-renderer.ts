@@ -1,11 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-
-type BinaryAsset = {
-  /** The source of the binary asset, relative to our data dir. */
-  source: string;
-  /** The destination of the binary asset, relative to the site root. */
-  destination: string;
-};
+import type { BinaryAsset } from "../assets";
 
 export class StaticRenderer {
   warnings: string[] = [];
