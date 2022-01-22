@@ -11,12 +11,7 @@ import { StaticRenderer } from "./lib/templating/static-renderer";
 
 import "dotenv/config";
 
-async function main() {
-  const renderer = new StaticRenderer();
-  const contentPages = loadContentPageAssets();
-  const projects = loadProjectAssets();
-  renderer.renderPage("/", <SplashPage content={contentPages.splash_page} />);
-  renderer.renderPage("/projects/", <ProjectsPage projects={projects} />);
+function exportSite(renderer: StaticRenderer) {
   for (const binaryAsset of renderer.getBinaryAssets()) {
     copyBinaryAsset(binaryAsset);
     console.log(`Wrote ${binaryAsset.destination}.`);
@@ -29,6 +24,15 @@ async function main() {
     console.log(`WARNING: ${warning}`);
   }
   console.log(`The generated website is in ${STATIC_DIR}.`);
+}
+
+async function main() {
+  const renderer = new StaticRenderer();
+  const contentPages = loadContentPageAssets();
+  const projects = loadProjectAssets();
+  renderer.renderPage("/", <SplashPage content={contentPages.splash_page} />);
+  renderer.renderPage("/projects/", <ProjectsPage projects={projects} />);
+  exportSite(renderer);
 }
 
 main().catch((e) => {
