@@ -10,7 +10,7 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
 }) => {
   return (
     <Page>
-      <h2>Projects</h2>
+      <h1>Projects</h1>
       <p>
         <Link to="/">Home</Link>
       </p>

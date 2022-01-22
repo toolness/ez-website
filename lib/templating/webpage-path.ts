@@ -1,5 +1,7 @@
 import path from "path";
 
+const INDEX_DOT_HTML = "index.html";
+
 export type WebpagePath = {
   /**
    * The path to the page using posix-style path separators,
@@ -22,7 +24,31 @@ export function friendlyPathToFilesystemPath(friendlyPath: string): string {
   }
   const parts = friendlyPath.slice(1).split("/");
   if (friendlyPath.endsWith("/")) {
-    parts.push("index.html");
+    parts.push(INDEX_DOT_HTML);
   }
   return path.join(...parts);
+}
+
+export function friendlyRelativePath(
+  from: string,
+  to: string,
+  options: {
+    explicitIndexHtml: boolean;
+  }
+): string {
+  let result = path.posix.relative(from, to);
+  if (to.endsWith("/") && !result.endsWith("/")) {
+    result += "/";
+  }
+  if (options.explicitIndexHtml) {
+    result = friendlyPathWithExplicitIndexHtml(result);
+  }
+  return result;
+}
+
+function friendlyPathWithExplicitIndexHtml(friendlyPath: string) {
+  if (friendlyPath.endsWith("/")) {
+    return friendlyPath + INDEX_DOT_HTML;
+  }
+  return friendlyPath;
 }

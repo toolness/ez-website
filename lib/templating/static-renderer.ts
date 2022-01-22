@@ -1,7 +1,10 @@
-import { posix as posixPath } from "path";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { BinaryAsset } from "../assets";
-import { friendlyPathToFilesystemPath, WebpagePath } from "./webpage-path";
+import {
+  friendlyPathToFilesystemPath,
+  friendlyRelativePath,
+  WebpagePath,
+} from "./webpage-path";
 
 export type RenderedPage = {
   path: WebpagePath;
@@ -36,7 +39,9 @@ export class StaticRenderer {
   linkTo(friendlyPath: string): string {
     // TODO: Remember this link, at a later stage we can make sure that
     // none of these links are 404's.
-    return posixPath.relative(this.currentPage, friendlyPath);
+    return friendlyRelativePath(this.currentPage, friendlyPath, {
+      explicitIndexHtml: Boolean(process.env.LINK_TO_INDEX_HTML),
+    });
   }
 
   linkToBinaryAsset(asset: { source: string; friendlyPath: string }): string {

@@ -9,6 +9,8 @@ import { ProjectsPage } from "./lib/templating/pages/projects-page";
 import { SplashPage } from "./lib/templating/pages/splash-page";
 import { StaticRenderer } from "./lib/templating/static-renderer";
 
+import "dotenv/config";
+
 async function main() {
   const renderer = new StaticRenderer();
   const contentPages = loadContentPageAssets();
