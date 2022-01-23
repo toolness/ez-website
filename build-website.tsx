@@ -32,8 +32,9 @@ function validateSiteLinks(renderer: StaticRenderer) {
 
 function exportSite(renderer: StaticRenderer) {
   for (const binaryAsset of renderer.getBinaryAssets()) {
-    copyBinaryAsset(binaryAsset);
-    console.log(`Wrote ${binaryAsset.destination}.`);
+    if (copyBinaryAsset(binaryAsset)) {
+      console.log(`Wrote ${binaryAsset.destination}.`);
+    }
   }
   for (const page of renderer.getRenderedPages()) {
     writeStaticTextFile(page.path.filesystemPath, page.html);
