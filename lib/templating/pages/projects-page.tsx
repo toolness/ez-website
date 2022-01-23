@@ -10,13 +10,12 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
 }) => {
   return (
     <Page>
-      <h1>Projects</h1>
-      <p>
-        <Link to="/">Home</Link>
-      </p>
-      {projects.map((project) => {
-        return <ProjectContent key={project.name} data={project} />;
-      })}
+      <nav>TODO: Implement sidebar.</nav>
+      <main>
+        {projects.map((project) => {
+          return <ProjectContent key={project.name} data={project} />;
+        })}
+      </main>
     </Page>
   );
 };
@@ -24,14 +23,20 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
 const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
   return (
     <>
-      <h3>{data.name}</h3>
-      <p>context: {data.context}</p>
-      <p>tags: {data.tags.join(", ")}</p>
-      <p>year: {data.years.start}</p>
-      {data.pictures.map((picture, i) => {
-        return <Picture key={i} source={picture} />;
-      })}
-      <NotionPageAssetContent data={data} />
+      <details>
+        <summary className="project">
+          <span>{data.name}</span>
+          <span>{data.context}</span>
+          <span>{data.tags.join(", ")}</span>
+          <span>{data.years.start}</span>
+        </summary>
+        <div>
+          {data.pictures.map((picture, i) => {
+            return <Picture key={i} source={picture} />;
+          })}
+          <NotionPageAssetContent data={data} />
+        </div>
+      </details>
     </>
   );
 };

@@ -13,6 +13,8 @@ import { PageLink, StaticRenderer } from "./lib/templating/static-renderer";
 
 import "dotenv/config";
 import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path";
+import { CollaborationsPage } from "./lib/templating/pages/collaborations-page";
+import { BioPage } from "./lib/templating/pages/bio-page";
 
 function validateSiteLinks(renderer: StaticRenderer) {
   let brokenLinks: PageLink[] = [];
@@ -53,6 +55,8 @@ async function main() {
   const projects = loadProjectAssets();
   renderer.renderPage("/", <SplashPage content={contentPages.splash_page} />);
   renderer.renderPage("/projects/", <ProjectsPage projects={projects} />);
+  renderer.renderPage("/collaborations/", <CollaborationsPage />);
+  renderer.renderPage("/bio/", <BioPage />);
   await exportSite(renderer);
 }
 

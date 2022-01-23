@@ -9,11 +9,22 @@ export const SplashPage: React.FC<{ content: NotionPageAsset }> = ({
 }) => {
   return (
     <Page>
-      <h1>Splash page</h1>
-      <p>
-        <Link to="/projects/">Projects</Link>
-      </p>
-      <NotionPageAssetContent data={content} />
+      <nav>
+        <ul>
+          <li>
+            <Link to="/projects/">Projects</Link>
+          </li>
+          <li>
+            <Link to="/collaborations/">Collaborations</Link>
+          </li>
+          <li>
+            <Link to="/bio/">Bio / Contact</Link>
+          </li>
+        </ul>
+      </nav>
+      <main>
+        <NotionPageAssetContent data={content} />
+      </main>
     </Page>
   );
 };

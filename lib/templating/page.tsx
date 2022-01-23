@@ -1,25 +1,34 @@
 import React from "react";
+import { Link } from "./link";
+import { StaticRenderer } from "./static-renderer";
 
-export type PageProps = {};
+const SITE_TITLE = "Eric Zimmerman's work-in-progress website";
+
+export type PageProps = {
+  title?: string;
+};
 
 export const Page: React.FC<PageProps> = (props) => {
+  const title = props.title ? `${props.title} | ${SITE_TITLE}` : SITE_TITLE;
+
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Eric Zimmerman's extremely work-in-progress website</title>
+        <link
+          rel="stylesheet"
+          href={StaticRenderer.current.linkToInternal("/style.css")}
+        />
+        <title>{title}</title>
       </head>
       <body>
-        <p style={{ background: "crimson", color: "white", padding: "1em" }}>
-          <strong>This is an extreme work-in-progress!</strong> If you want to
-          see Eric's real website, visit{" "}
-          <a style={{ color: "inherit" }} href="https://ericzimmerman.com">
-            ericzimmerman.com
-          </a>
-          .
-        </p>
-        {props.children}
+        <div className="page-wrapper">
+          <header>
+            <Link to="/">Eric Zimmerman</Link>
+          </header>
+          {props.children}
+        </div>
       </body>
     </html>
   );
