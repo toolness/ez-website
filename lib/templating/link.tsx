@@ -6,6 +6,6 @@ type LinkProps = {
 };
 
 export const Link: React.FC<LinkProps> = (props) => {
-  const href = StaticRenderer.current.linkTo(props.to);
+  const href = StaticRenderer.current.linkToInternal(props.to);
   return <a href={href}>{props.children}</a>;
 };

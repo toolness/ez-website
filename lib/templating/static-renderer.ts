@@ -6,6 +6,14 @@ import {
   WebpagePath,
 } from "./webpage-path";
 
+export type PageLink = {
+  /** Friendly path of the page where the link is mentioned. */
+  from: string;
+
+  /** Friendly path of the page where the link goes to. */
+  to: string;
+};
+
 export type RenderedPage = {
   path: WebpagePath;
   html: string;
@@ -16,6 +24,7 @@ export class StaticRenderer {
   private binaryAssets: Map<string, string> = new Map();
   private _currentPage: string | undefined;
   private renderedPages: Map<string, string> = new Map();
+  private internalLinks: Map<string, Set<string>> = new Map();
 
   static get current(): StaticRenderer {
     if (!currentStaticRenderer) {
@@ -33,12 +42,20 @@ export class StaticRenderer {
     return this._currentPage;
   }
 
+  private rememberInternalLink(friendlyPath: string) {
+    let links = this.internalLinks.get(this.currentPage);
+    if (!links) {
+      links = new Set();
+      this.internalLinks.set(this.currentPage, links);
+    }
+    links.add(friendlyPath);
+  }
+
   /**
-   * Link to another page on the site from the current page.
+   * Link to another page or file on the site from the current page.
    */
-  linkTo(friendlyPath: string): string {
-    // TODO: Remember this link, at a later stage we can make sure that
-    // none of these links are 404's.
+  linkToInternal(friendlyPath: string): string {
+    this.rememberInternalLink(friendlyPath);
     return friendlyRelativePath(this.currentPage, friendlyPath, {
       explicitIndexHtml: Boolean(process.env.LINK_TO_INDEX_HTML),
     });
@@ -54,7 +71,15 @@ export class StaticRenderer {
     } else {
       this.binaryAssets.set(destination, asset.source);
     }
-    return this.linkTo(asset.friendlyPath);
+    return this.linkToInternal(asset.friendlyPath);
+  }
+
+  *getInternalLinks(): Iterable<PageLink> {
+    for (let [from, links] of this.internalLinks.entries()) {
+      for (let to of links) {
+        yield { from, to };
+      }
+    }
   }
 
   getBinaryAssets(): BinaryAsset[] {

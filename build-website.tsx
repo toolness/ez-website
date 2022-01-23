@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import React from "react";
 import {
   copyBinaryAsset,
@@ -7,9 +9,26 @@ import {
 import { STATIC_DIR, writeStaticTextFile } from "./lib/data-dir";
 import { ProjectsPage } from "./lib/templating/pages/projects-page";
 import { SplashPage } from "./lib/templating/pages/splash-page";
-import { StaticRenderer } from "./lib/templating/static-renderer";
+import { PageLink, StaticRenderer } from "./lib/templating/static-renderer";
 
 import "dotenv/config";
+import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path";
+
+function validateSiteLinks(renderer: StaticRenderer) {
+  let brokenLinks: PageLink[] = [];
+  for (let link of renderer.getInternalLinks()) {
+    const target = path.join(STATIC_DIR, friendlyPathToFilesystemPath(link.to));
+    if (!fs.existsSync(target)) {
+      console.log(
+        `ERROR: Link from "${link.from}" to "${link.to}" does not exist.`
+      );
+      brokenLinks.push(link);
+    }
+  }
+  if (brokenLinks.length) {
+    throw new Error("Broken links found! See above for more details.");
+  }
+}
 
 function exportSite(renderer: StaticRenderer) {
   for (const binaryAsset of renderer.getBinaryAssets()) {
@@ -23,6 +42,7 @@ function exportSite(renderer: StaticRenderer) {
   for (const warning of renderer.warnings) {
     console.log(`WARNING: ${warning}`);
   }
+  validateSiteLinks(renderer);
   console.log(`The generated website is in ${STATIC_DIR}.`);
 }
 
