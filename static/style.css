@@ -79,7 +79,8 @@ details:first-child > summary {
   border-top: none;
 }
 
-details > summary:hover {
+details > summary:hover,
+details > summary:focus {
   background-color: #f0f0f0;
 }
 
