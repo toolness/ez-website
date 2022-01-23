@@ -27,6 +27,7 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
       <h3>{data.name}</h3>
       <p>context: {data.context}</p>
       <p>tags: {data.tags.join(", ")}</p>
+      <p>year: {data.years.start}</p>
       {data.pictures.map((picture, i) => {
         return <Picture key={i} source={picture} />;
       })}

@@ -8,6 +8,8 @@ import type {
 
 export type FileWithName = FilesPropertyValue["files"][0];
 
+export type DateYears = { start: number; end?: number };
+
 export function getFileURL(file: FileWithName) {
   if (file.type === "external") {
     return file.external.url;
@@ -114,4 +116,26 @@ export function getNonEmptyRichPlaintext(value: PropertyValue): string {
     throw new Error(`Expected rich text property to be non-empty!`);
   }
   return result;
+}
+
+function parseYearFromISODate(date: string): number {
+  const number = parseInt(date.slice(0, 4));
+  if (isNaN(number)) {
+    throw new Error(`Unable to parse year from ISO date: ${date}`);
+  }
+  return number;
+}
+
+export function getDateYears(value: PropertyValue): DateYears {
+  if (value.type !== "date") {
+    throw new Error(`Expected property to be date, not ${value.type}!`);
+  }
+  const { date } = value;
+  if (!date) {
+    throw new Error(`Expected date property to be non-empty!`);
+  }
+  return {
+    start: parseYearFromISODate(date.start),
+    end: date.end ? parseYearFromISODate(date.end) : undefined,
+  };
 }

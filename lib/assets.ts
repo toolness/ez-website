@@ -13,6 +13,8 @@ import {
   STATIC_DIR,
 } from "./data-dir";
 import {
+  DateYears,
+  getDateYears,
   getMultiSelect,
   getNonEmptyRichPlaintext,
   getNonEmptyTitlePlaintext,
@@ -40,6 +42,7 @@ export interface ProjectAsset extends NotionPageAsset {
   name: string;
   context: string;
   tags: string[];
+  years: DateYears;
   pictures: CachedFile[];
 }
 
@@ -72,6 +75,7 @@ export function loadProjectAssets(): ProjectAsset[] {
       name: getNonEmptyTitlePlaintext(getProperty(page, "Name")),
       context: getNonEmptyRichPlaintext(getProperty(page, "Context")),
       tags: getMultiSelect(getProperty(page, "Tags")),
+      years: getDateYears(getProperty(page, "When")),
       pictures: project.pictures,
       imageBlocks: project.imageBlocks,
       content,
