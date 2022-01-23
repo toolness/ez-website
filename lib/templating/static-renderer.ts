@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server";
-import type { BinaryAsset } from "../assets";
+import type { BinaryAsset, BinaryAssetTransformer } from "../assets";
 import {
   friendlyPathToFilesystemPath,
   friendlyRelativePath,
@@ -21,7 +21,7 @@ export type RenderedPage = {
 
 export class StaticRenderer {
   warnings: string[] = [];
-  private binaryAssets: Map<string, string> = new Map();
+  private binaryAssets: Map<string, BinaryAsset> = new Map();
   private _currentPage: string | undefined;
   private renderedPages: Map<string, string> = new Map();
   private internalLinks: Map<string, Set<string>> = new Map();
@@ -61,15 +61,28 @@ export class StaticRenderer {
     });
   }
 
-  linkToBinaryAsset(asset: { source: string; friendlyPath: string }): string {
+  linkToBinaryAsset(asset: {
+    source: string;
+    friendlyPath: string;
+    transformer?: BinaryAssetTransformer;
+  }): string {
     const destination = friendlyPathToFilesystemPath(asset.friendlyPath);
-    const source = this.binaryAssets.get(destination);
-    if (source) {
-      if (source !== asset.source) {
+    const existingAsset = this.binaryAssets.get(destination);
+    if (existingAsset) {
+      if (existingAsset.source !== asset.source) {
         throw new Error(`Conflicting sources for binary asset ${destination}!`);
       }
+      if (existingAsset.transformer !== asset.transformer) {
+        throw new Error(
+          `Conflicting transformers for binary asset ${destination}!`
+        );
+      }
     } else {
-      this.binaryAssets.set(destination, asset.source);
+      this.binaryAssets.set(destination, {
+        source: asset.source,
+        destination,
+        transformer: asset.transformer,
+      });
     }
     return this.linkToInternal(asset.friendlyPath);
   }
@@ -83,9 +96,7 @@ export class StaticRenderer {
   }
 
   getBinaryAssets(): BinaryAsset[] {
-    return Array.from(this.binaryAssets.entries()).map(
-      ([destination, source]) => ({ source, destination })
-    );
+    return Array.from(this.binaryAssets.values());
   }
 
   renderPage(friendlyPath: string, root: JSX.Element) {

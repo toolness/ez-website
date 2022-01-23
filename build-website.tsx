@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import React from "react";
 import {
-  copyBinaryAsset,
+  copyAndTransformBinaryAsset,
   loadContentPageAssets,
   loadProjectAssets,
 } from "./lib/assets";
@@ -30,9 +30,9 @@ function validateSiteLinks(renderer: StaticRenderer) {
   }
 }
 
-function exportSite(renderer: StaticRenderer) {
+async function exportSite(renderer: StaticRenderer) {
   for (const binaryAsset of renderer.getBinaryAssets()) {
-    if (copyBinaryAsset(binaryAsset)) {
+    if (await copyAndTransformBinaryAsset(binaryAsset)) {
       console.log(`Wrote ${binaryAsset.destination}.`);
     }
   }
@@ -53,7 +53,7 @@ async function main() {
   const projects = loadProjectAssets();
   renderer.renderPage("/", <SplashPage content={contentPages.splash_page} />);
   renderer.renderPage("/projects/", <ProjectsPage projects={projects} />);
-  exportSite(renderer);
+  await exportSite(renderer);
 }
 
 main().catch((e) => {

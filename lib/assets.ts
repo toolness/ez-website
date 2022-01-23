@@ -21,11 +21,25 @@ import {
   getProperty,
 } from "./notion-util";
 
+/**
+ * A transformation applied to a binary asset, e.g. scaling.
+ *
+ * It is responsible for reading from the given source path,
+ * and writing the transformed asset to the given destination
+ * path.
+ */
+export type BinaryAssetTransformer = (
+  absoluteSourcePath: string,
+  absoluteDestinationPath: string
+) => Promise<void>;
+
 export type BinaryAsset = {
   /** The source of the binary asset, relative to our data dir. */
   source: string;
   /** The destination of the binary asset, relative to the site root. */
   destination: string;
+  /** Any transformation done to the asset, e.g. scaling. */
+  transformer?: BinaryAssetTransformer;
 };
 
 export type ContentPageAssets = {
@@ -90,14 +104,17 @@ function isFileUpToDate(file: string, dependency: string): boolean {
 }
 
 /**
- * Try to copy the binary asset from our data dir to the static dir.
+ * Try to copy the binary asset from our data dir to the static dir,
+ * applying any transformation if needed.
  *
  * If the static dir already contains the asset and it has the
- * same file-modified time as the source, don't copy anything.
+ * same file-modified time as the source, don't do anything.
  *
- * Returns whether anything was copied.
+ * Returns whether anything was written to the filesystem.
  */
-export function copyBinaryAsset(binaryAsset: BinaryAsset): boolean {
+export async function copyAndTransformBinaryAsset(
+  binaryAsset: BinaryAsset
+): Promise<boolean> {
   const source = path.join(DATA_DIR, binaryAsset.source);
   const destination = path.join(STATIC_DIR, binaryAsset.destination);
   if (isFileUpToDate(destination, source)) {
@@ -107,6 +124,10 @@ export function copyBinaryAsset(binaryAsset: BinaryAsset): boolean {
   if (!fs.existsSync(destinationDir)) {
     fs.mkdirSync(destinationDir, { recursive: true });
   }
-  fs.copyFileSync(source, destination);
+  if (binaryAsset.transformer) {
+    await binaryAsset.transformer(source, destination);
+  } else {
+    fs.copyFileSync(source, destination);
+  }
   return true;
 }
