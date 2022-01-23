@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "node cache-data.js",
     "build-website": "node build-website.js",
+    "build-website:watch": "nodemon --delay 250ms --watch build-website.js --watch lib build-website.js",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "build": "tsc",
@@ -27,6 +28,7 @@
     "typescript": "4.5.4"
   },
   "devDependencies": {
+    "nodemon": "2.0.15",
     "prettier": "2.5.1"
   }
 }

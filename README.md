@@ -31,3 +31,7 @@ To use the cached data to build the website, run:
 ```
 npm run build-website
 ```
+
+(Alternatively, if you want to have the site rebuild itself whenever any of
+its dependent source files change, you can run `npm run build-website:watch`
+in a separate terminal.)
