@@ -20,6 +20,11 @@ export const Page: React.FC<PageProps> = (props) => {
           rel="stylesheet"
           href={StaticRenderer.current.linkToInternal("/style.css")}
         />
+        <script
+          type="module"
+          async
+          src={StaticRenderer.current.linkToInternal("/js/hello.js")}
+        ></script>
         <title>{title}</title>
       </head>
       <body>
