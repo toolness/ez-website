@@ -5,14 +5,14 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fetch": "node cache-data.js",
+    "fetch": "npm run js:build && node cache-data.js",
     "build-website": "node build-website.js",
-    "build-website:watch": "nodemon --delay 250ms --watch build-website.js --watch lib build-website.js",
-    "serve": "concurrently --kill-others \"npm run build-website:watch\" \"http-server static\"",
+    "build-website:watch": "nodemon --delay 250ms --watch data/_cache-data-completed.txt --watch build-website.js --watch lib build-website.js",
+    "watch": "concurrently --kill-others \"npm run js:watch\" \"npm run build-website:watch\" \"http-server static\"",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "build": "tsc",
-    "watch": "tsc --watch --preserveWatchOutput"
+    "js:build": "tsc",
+    "js:watch": "tsc --watch --preserveWatchOutput"
   },
   "author": "Atul Varma <varmaa@gmail.com>",
   "license": "ISC",

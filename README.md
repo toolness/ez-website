@@ -11,20 +11,23 @@ Now edit `.env` as needed. You will need to create a Notion API token with
 "Read content" permissions only; it doesn't need to insert or update content,
 nor will it need to read any user information.
 
+To cache all data from Notion, run:
+
+```
+npm run fetch
+```
+
 In a separate terminal, run:
 
 ```
 npm run watch
 ```
 
-(Alternatively, if you don't need to develop the site itself,
-you can just run `npm run build` in the current terminal.)
+Now visit http://localhost:8080/ to view the site. Whenever you change any
+source files or re-run `npm run fetch`, the website should update automatically
+(though you will need to reload the page manually).
 
-To cache all data from Notion, run:
-
-```
-npm run fetch
-```
+## Deployment
 
 To use the cached data to build the website, run:
 
@@ -32,6 +35,5 @@ To use the cached data to build the website, run:
 npm run build-website
 ```
 
-(Alternatively, if you want to have the site rebuild itself whenever any of
-its dependent source files change, you can run `npm run build-website:watch`
-in a separate terminal.)
+The website will be in `static` and can be deployed to any static web server
+that supports the `index.html` convention.

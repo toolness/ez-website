@@ -6,7 +6,11 @@ import {
   loadContentPageAssets,
   loadProjectAssets,
 } from "./lib/assets.js";
-import { STATIC_DIR, writeStaticTextFile } from "./lib/data-dir.js";
+import {
+  hasDataBeenCached,
+  STATIC_DIR,
+  writeStaticTextFile,
+} from "./lib/data-dir.js";
 import { ProjectsPage } from "./lib/templating/pages/projects-page.js";
 import { SplashPage } from "./lib/templating/pages/splash-page.js";
 import { PageLink, StaticRenderer } from "./lib/templating/static-renderer.js";
@@ -50,6 +54,10 @@ async function exportSite(renderer: StaticRenderer) {
 }
 
 async function main() {
+  if (!hasDataBeenCached()) {
+    console.log("Unable to find cached data! Please run 'npm run fetch'.");
+    process.exit(1);
+  }
   const renderer = new StaticRenderer();
   const contentPages = loadContentPageAssets();
   const projects = loadProjectAssets();

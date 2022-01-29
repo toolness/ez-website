@@ -41,6 +41,19 @@ export const ROOT_DIR = path.normalize(path.join(__dirname, ".."));
 
 export const DATA_DIR = path.join(ROOT_DIR, "data");
 
+const CACHE_DATA_COMPLETED_PATH = path.join(
+  DATA_DIR,
+  "_cache-data-completed.txt"
+);
+
+export function signalDataHasBeenCached() {
+  fs.writeFileSync(CACHE_DATA_COMPLETED_PATH, Date.now().toString());
+}
+
+export function hasDataBeenCached(): boolean {
+  return fs.existsSync(CACHE_DATA_COMPLETED_PATH);
+}
+
 export const PROJECT_PAGES_JSON_PATH = path.join(
   DATA_DIR,
   `_project-pages.json`

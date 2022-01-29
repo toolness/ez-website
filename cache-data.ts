@@ -5,6 +5,7 @@ import {
   ContentPageName,
   CONTENT_PAGE_NAMES,
   DATA_DIR,
+  signalDataHasBeenCached,
   writeContentPage,
   writeProjectPages,
 } from "./lib/data-dir.js";
@@ -68,6 +69,7 @@ async function main() {
   }
   agentContext.destroy();
   writeProjectPages(pages);
+  signalDataHasBeenCached();
 }
 
 main().catch((e) => {
