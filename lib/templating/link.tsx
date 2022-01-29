@@ -1,5 +1,5 @@
 import React from "react";
-import { StaticRenderer } from "./static-renderer";
+import { StaticRenderer } from "./static-renderer.js";
 
 type LinkProps = {
   to: string;

@@ -1,8 +1,8 @@
 import React from "react";
-import { NotionPageAsset } from "../../assets";
-import { Link } from "../link";
-import { NotionPageAssetContent } from "../notion-page-asset-content";
-import { Page } from "../page";
+import { NotionPageAsset } from "../../assets.js";
+import { Link } from "../link.js";
+import { NotionPageAssetContent } from "../notion-page-asset-content.js";
+import { Page } from "../page.js";
 
 export const SplashPage: React.FC<{ content: NotionPageAsset }> = ({
   content,

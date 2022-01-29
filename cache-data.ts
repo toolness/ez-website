@@ -1,18 +1,23 @@
-import { Client } from "@notionhq/client";
+import NotionHQ from "@notionhq/client";
 
-import { AgentContext } from "./lib/cache-file";
+import { AgentContext } from "./lib/cache-file.js";
 import {
   ContentPageName,
   CONTENT_PAGE_NAMES,
   DATA_DIR,
   writeContentPage,
   writeProjectPages,
-} from "./lib/data-dir";
-import { iterDatabase } from "./lib/notion-util";
-import { CachedProjectPage, cacheProjectPage } from "./lib/cache-project-page";
+} from "./lib/data-dir.js";
+import { iterDatabase } from "./lib/notion-util.js";
+import {
+  CachedProjectPage,
+  cacheProjectPage,
+} from "./lib/cache-project-page.js";
 
 import "dotenv/config";
-import { cachePageChildren } from "./lib/cache-page-children";
+import { cachePageChildren } from "./lib/cache-page-children.js";
+
+const { Client } = NotionHQ;
 
 const { NOTION_TOKEN } = process.env;
 

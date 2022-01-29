@@ -1,8 +1,8 @@
 import path from "path";
 import React from "react";
-import { CachedFile } from "../cache-file";
-import { linkToGrayscaleThumbnail } from "../image-transformers";
-import { StaticRenderer } from "./static-renderer";
+import { CachedFile } from "../cache-file.js";
+import { linkToGrayscaleThumbnail } from "../image-transformers.js";
+import { StaticRenderer } from "./static-renderer.js";
 
 const IMAGES_DIR = "/images";
 const THUMBNAILS_DIR = `${IMAGES_DIR}/thumbnails`;

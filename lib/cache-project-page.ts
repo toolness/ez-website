@@ -8,9 +8,12 @@ import {
   CachedFile,
   cacheFile,
   CacheFileOptions,
-} from "./cache-file";
-import { getFileURL, getPageIconURL } from "./notion-util";
-import { CachedPageChildren, cachePageChildren } from "./cache-page-children";
+} from "./cache-file.js";
+import { getFileURL, getPageIconURL } from "./notion-util.js";
+import {
+  CachedPageChildren,
+  cachePageChildren,
+} from "./cache-page-children.js";
 
 const PICTURE_PROPERTY_NAME = "Pictures";
 

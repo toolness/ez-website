@@ -1,6 +1,6 @@
 import React from "react";
-import { NotionPageAsset } from "../assets";
-import { NotionBlock } from "./block";
+import { NotionPageAsset } from "../assets.js";
+import { NotionBlock } from "./block.js";
 
 export const NotionPageAssetContent: React.FC<{ data: NotionPageAsset }> = ({
   data,

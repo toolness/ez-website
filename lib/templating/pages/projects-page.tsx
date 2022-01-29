@@ -1,9 +1,8 @@
 import React from "react";
-import { ProjectAsset } from "../../assets";
-import { Link } from "../link";
-import { NotionPageAssetContent } from "../notion-page-asset-content";
-import { Page } from "../page";
-import { Picture } from "../picture";
+import { ProjectAsset } from "../../assets.js";
+import { NotionPageAssetContent } from "../notion-page-asset-content.js";
+import { Page } from "../page.js";
+import { Picture } from "../picture.js";
 
 export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
   projects,

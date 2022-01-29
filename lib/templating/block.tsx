@@ -1,7 +1,7 @@
 import { Block } from "@notionhq/client/build/src/api-types";
 import React from "react";
-import { joinRichTextPlaintext } from "../notion-util";
-import { Warning } from "./warning";
+import { joinRichTextPlaintext } from "../notion-util.js";
+import { Warning } from "./warning.js";
 
 export type NotionBlockProps = {
   data: Block;

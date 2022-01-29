@@ -1,9 +1,12 @@
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 
 import type { CachedProjectPage } from "./cache-project-page";
 import type { Page, Block } from "@notionhq/client/build/src/api-types";
 import { CachedPageChildren } from "./cache-page-children";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const CONTENT_PAGE_NAMES = ["splash_page"] as const;
 

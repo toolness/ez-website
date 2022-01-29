@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "./link";
-import { StaticRenderer } from "./static-renderer";
+import { Link } from "./link.js";
+import { StaticRenderer } from "./static-renderer.js";
 
 const SITE_TITLE = "Eric Zimmerman's work-in-progress website";
 

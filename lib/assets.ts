@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { Block } from "@notionhq/client/build/src/api-types";
-import { CachedFile } from "./cache-file";
+import { CachedFile } from "./cache-file.js";
 import {
   ContentPageName,
   CONTENT_PAGE_NAMES,
@@ -11,7 +11,7 @@ import {
   readNotionPage,
   readProjectPages,
   STATIC_DIR,
-} from "./data-dir";
+} from "./data-dir.js";
 import {
   DateYears,
   getDateYears,
@@ -19,7 +19,7 @@ import {
   getNonEmptyRichPlaintext,
   getNonEmptyTitlePlaintext,
   getProperty,
-} from "./notion-util";
+} from "./notion-util.js";
 
 /**
  * A transformation applied to a binary asset, e.g. scaling.

@@ -1,10 +1,12 @@
-import { renderToStaticMarkup } from "react-dom/server";
-import type { BinaryAsset, BinaryAssetTransformer } from "../assets";
+import ReactDOMServer from "react-dom/server.js";
+import type { BinaryAsset, BinaryAssetTransformer } from "../assets.js";
 import {
   friendlyPathToFilesystemPath,
   friendlyRelativePath,
   WebpagePath,
-} from "./webpage-path";
+} from "./webpage-path.js";
+
+const { renderToStaticMarkup } = ReactDOMServer;
 
 export type PageLink = {
   /** Friendly path of the page where the link is mentioned. */

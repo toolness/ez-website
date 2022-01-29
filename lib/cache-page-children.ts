@@ -7,9 +7,9 @@ import {
   CachedFile,
   cacheFile,
   CacheFileOptions,
-} from "./cache-file";
-import { iterBlockChildren } from "./notion-util";
-import { assertUnreachable } from "./util";
+} from "./cache-file.js";
+import { iterBlockChildren } from "./notion-util.js";
+import { assertUnreachable } from "./util.js";
 
 export type CachedPageChildren = {
   childrenPath: string;

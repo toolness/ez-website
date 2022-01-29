@@ -5,16 +5,16 @@ import {
   copyAndTransformBinaryAsset,
   loadContentPageAssets,
   loadProjectAssets,
-} from "./lib/assets";
-import { STATIC_DIR, writeStaticTextFile } from "./lib/data-dir";
-import { ProjectsPage } from "./lib/templating/pages/projects-page";
-import { SplashPage } from "./lib/templating/pages/splash-page";
-import { PageLink, StaticRenderer } from "./lib/templating/static-renderer";
+} from "./lib/assets.js";
+import { STATIC_DIR, writeStaticTextFile } from "./lib/data-dir.js";
+import { ProjectsPage } from "./lib/templating/pages/projects-page.js";
+import { SplashPage } from "./lib/templating/pages/splash-page.js";
+import { PageLink, StaticRenderer } from "./lib/templating/static-renderer.js";
 
 import "dotenv/config";
-import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path";
-import { CollaborationsPage } from "./lib/templating/pages/collaborations-page";
-import { BioPage } from "./lib/templating/pages/bio-page";
+import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path.js";
+import { CollaborationsPage } from "./lib/templating/pages/collaborations-page.js";
+import { BioPage } from "./lib/templating/pages/bio-page.js";
 
 function validateSiteLinks(renderer: StaticRenderer) {
   let brokenLinks: PageLink[] = [];

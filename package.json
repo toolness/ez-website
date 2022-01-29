@@ -2,7 +2,7 @@
   "name": "ez-website",
   "version": "1.0.0",
   "description": "Eric Zimmerman's website",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "node cache-data.js",
