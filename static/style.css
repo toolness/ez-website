@@ -170,6 +170,15 @@ project-search-sidebar:not([active]) {
 }
 
 .project-pictures img {
+  display: block;
   width: 100%;
   height: auto;
+}
+
+.project-pictures a {
+  display: block;
+}
+
+.project-pictures a ~ a {
+  margin-top: 1em;
 }
