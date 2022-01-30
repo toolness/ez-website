@@ -6,6 +6,7 @@ const SITE_TITLE = "Eric Zimmerman's work-in-progress website";
 
 export type PageProps = {
   title?: string;
+  moduleScripts?: string[];
 };
 
 export const Page: React.FC<PageProps> = (props) => {
@@ -20,11 +21,14 @@ export const Page: React.FC<PageProps> = (props) => {
           rel="stylesheet"
           href={StaticRenderer.current.linkToInternal("/style.css")}
         />
-        <script
-          type="module"
-          async
-          src={StaticRenderer.current.linkToInternal("/js/hello.js")}
-        ></script>
+        {props.moduleScripts?.map((script) => (
+          <script
+            key={script}
+            type="module"
+            async
+            src={StaticRenderer.current.linkToInternal(script)}
+          ></script>
+        ))}
         <title>{title}</title>
       </head>
       <body>

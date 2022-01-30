@@ -8,8 +8,8 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
   projects,
 }) => {
   return (
-    <Page title="Projects">
-      <nav>TODO: Implement sidebar.</nav>
+    <Page title="Projects" moduleScripts={["/js/project-search-sidebar.js"]}>
+      <nav is="project-search-sidebar"></nav>
       <main>
         {projects.map((project) => {
           return <ProjectContent key={project.name} data={project} />;
