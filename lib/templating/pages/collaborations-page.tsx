@@ -3,7 +3,7 @@ import { Page } from "../page.js";
 
 export const CollaborationsPage: React.FC<{}> = () => {
   return (
-    <Page>
+    <Page title="Collaborations">
       <>
         <nav></nav>
         <main>TODO: Implement collaborations page.</main>

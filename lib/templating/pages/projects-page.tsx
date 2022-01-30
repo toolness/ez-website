@@ -8,7 +8,7 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
   projects,
 }) => {
   return (
-    <Page>
+    <Page title="Projects">
       <nav>TODO: Implement sidebar.</nav>
       <main>
         {projects.map((project) => {
