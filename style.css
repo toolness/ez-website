@@ -144,3 +144,41 @@ button.link {
 project-search-sidebar:not([active]) {
   display: none;
 }
+
+.project-full-details {
+  display: grid;
+  grid-template-areas: "description pictures";
+  grid-template-columns: auto 50%;
+  gap: 1em;
+}
+
+.project-description {
+  grid-area: description;
+}
+
+.project-description ul,
+.project-description ol {
+  padding-left: 1em;
+}
+
+.project-description li ~ li {
+  padding-top: 1em;
+}
+
+.project-pictures {
+  grid-area: pictures;
+}
+
+.project-pictures img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.project-pictures a {
+  display: block;
+}
+
+.project-pictures a ~ a {
+  margin-top: 1em;
+}
