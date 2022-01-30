@@ -8,7 +8,7 @@
     "fetch": "npm run js:build && node cache-data.js",
     "build-website": "node build-website.js",
     "build-website:watch": "nodemon --delay 250ms --watch data/_cache-data-completed.txt --watch build-website.js --watch lib build-website.js",
-    "watch": "concurrently --kill-others \"npm run js:watch\" \"npm run build-website:watch\" \"http-server static\"",
+    "watch": "concurrently --kill-others \"npm run js:watch\" \"npm run build-website:watch\" \"http-server -c-1 static\"",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "js:build": "tsc",
