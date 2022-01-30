@@ -4,12 +4,15 @@ body {
   font-family: serif;
 }
 
-a {
+a,
+button.link {
   color: inherit;
 }
 
 a:hover,
-a:focus {
+a:focus,
+button.link:hover,
+button.link:focus {
   background-color: #f0f0f0;
 }
 
@@ -65,7 +68,6 @@ main {
 
 details > summary {
   padding: 0.5em;
-  border-top: 1px solid black;
   cursor: pointer;
   list-style: none;
 }
@@ -75,8 +77,8 @@ details > summary + div {
   margin-bottom: 1em;
 }
 
-details:first-child > summary {
-  border-top: none;
+details:not([hidden]) ~ details:not([hidden]) {
+  border-top: 1px solid black;
 }
 
 details > summary:hover,
@@ -91,4 +93,54 @@ summary.project {
 
 summary.project > span:last-child {
   text-align: right;
+}
+
+ul.comma-separated {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  list-style: none;
+}
+
+ul.comma-separated > li {
+  display: inline;
+}
+
+ul.comma-separated > li:not(:last-child)::after {
+  content: ", ";
+}
+
+/* https://webaim.org/techniques/css/invisiblecontent/ */
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+input[type="text"] {
+  padding: 0;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input[type="text"]:focus {
+  outline: none;
+}
+
+button.link {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  background: inherit;
+  padding: 0;
+}
+
+project-search-sidebar:not([active]) {
+  display: none;
 }
