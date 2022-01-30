@@ -156,6 +156,15 @@ project-search-sidebar:not([active]) {
   grid-area: description;
 }
 
+.project-description ul,
+.project-description ol {
+  padding-left: 1em;
+}
+
+.project-description li ~ li {
+  padding-top: 1em;
+}
+
 .project-pictures {
   grid-area: pictures;
 }
