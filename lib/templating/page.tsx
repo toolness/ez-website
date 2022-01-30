@@ -18,6 +18,11 @@ export const Page: React.FC<PageProps> = (props) => {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
+          rel="icon"
+          type="image/png"
+          href={StaticRenderer.current.linkToInternal("/favicon.png")}
+        ></link>
+        <link
           rel="stylesheet"
           href={StaticRenderer.current.linkToInternal("/style.css")}
         />
