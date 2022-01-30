@@ -18,3 +18,33 @@ export function getHTMLElement<K extends keyof HTMLElementTagNameMap>(
   }
   return node as HTMLElementTagNameMap[K];
 }
+
+/**
+ * Find all elements with the given HTML tag and selector, returning an
+ * empty Array if none are found.
+ *
+ * @param tagName The name of the elements' HTML tag.
+ * @param selector The selector for the elements, not including their HTML tag.
+ * @param parent The parent node to search within (defaults to `document`).
+ */
+export function getAllHTMLElements<K extends keyof HTMLElementTagNameMap>(
+  tagName: K,
+  selector: string,
+  parent: ParentNode = document
+): Array<HTMLElementTagNameMap[K]> {
+  const finalSelector = `${tagName}${selector}`;
+  const nodes = parent.querySelectorAll(finalSelector);
+  return Array.from(nodes) as Array<HTMLElementTagNameMap[K]>;
+}
+
+// https://www.freecodecamp.org/news/javascript-debounce-example/
+export function debounce(func: () => void, timeoutMs = 250) {
+  let timeout: number | undefined;
+
+  return () => {
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      func();
+    }, timeoutMs);
+  };
+}

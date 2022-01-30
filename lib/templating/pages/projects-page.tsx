@@ -19,25 +19,37 @@ function getTagList(projects: ProjectAsset[]) {
   return tags;
 }
 
+const ProjectSearchSidebar: React.FC<{ projects: ProjectAsset[] }> = ({
+  projects,
+}) => {
+  const tags = getTagList(projects);
+
+  return (
+    <project-search-sidebar>
+      <form>
+        <label htmlFor="search" className="sr-only">
+          Search projects
+        </label>
+        <input type="text" placeholder="Search" id="search" />
+      </form>
+      <ul>
+        {tags.map((tag) => (
+          <li key={tag}>
+            <button className="link">{tag}</button>
+          </li>
+        ))}
+      </ul>
+    </project-search-sidebar>
+  );
+};
+
 export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
   projects,
 }) => {
   return (
     <Page title="Projects" moduleScripts={["/js/project-search-sidebar.js"]}>
       <nav>
-        <project-search-sidebar>
-          <label htmlFor="search" className="sr-only">
-            Search projects
-          </label>
-          <input type="text" placeholder="Search" id="search" />
-          <ul>
-            {getTagList(projects).map((tag) => (
-              <li key={tag}>
-                <button className="link">{tag}</button>
-              </li>
-            ))}
-          </ul>
-        </project-search-sidebar>
+        <ProjectSearchSidebar projects={projects} />
       </nav>
       <main>
         {projects.map((project) => {
