@@ -26,7 +26,13 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
         <summary className="project">
           <span>{data.name}</span>
           <span>{data.context}</span>
-          <span>{data.tags.join(", ")}</span>
+          <span>
+            <ul className="comma-separated">
+              {data.tags.map((tag) => (
+                <li key={tag}>{tag}</li>
+              ))}
+            </ul>
+          </span>
           <span>{data.years.start}</span>
         </summary>
         <div>

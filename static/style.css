@@ -92,3 +92,18 @@ summary.project {
 summary.project > span:last-child {
   text-align: right;
 }
+
+ul.comma-separated {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  list-style: none;
+}
+
+ul.comma-separated > li {
+  display: inline;
+}
+
+ul.comma-separated > li:not(:last-child)::after {
+  content: ", ";
+}
