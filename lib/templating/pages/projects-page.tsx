@@ -76,11 +76,15 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
           </span>
           <span>{data.years.start}</span>
         </summary>
-        <div>
-          {data.pictures.map((picture, i) => {
-            return <Picture key={i} source={picture} />;
-          })}
-          <NotionPageAssetContent data={data} />
+        <div className="project-full-details">
+          <div className="project-description">
+            <NotionPageAssetContent data={data} />
+          </div>
+          <div className="project-pictures">
+            {data.pictures.map((picture, i) => {
+              return <Picture key={i} source={picture} />;
+            })}
+          </div>
         </div>
       </details>
     </>

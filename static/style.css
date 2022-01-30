@@ -144,3 +144,23 @@ button.link {
 project-search-sidebar:not([active]) {
   display: none;
 }
+
+.project-full-details {
+  display: grid;
+  grid-template-areas: "description pictures";
+  grid-template-columns: auto 50%;
+  gap: 1em;
+}
+
+.project-description {
+  grid-area: description;
+}
+
+.project-pictures {
+  grid-area: pictures;
+}
+
+.project-pictures img {
+  width: 100%;
+  height: auto;
+}
