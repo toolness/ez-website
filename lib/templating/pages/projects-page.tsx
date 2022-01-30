@@ -4,12 +4,41 @@ import { NotionPageAssetContent } from "../notion-page-asset-content.js";
 import { Page } from "../page.js";
 import { Picture } from "../picture.js";
 
+function getTagList(projects: ProjectAsset[]) {
+  const tagSet = new Set<string>();
+
+  for (let project of projects) {
+    for (let tag of project.tags) {
+      tagSet.add(tag);
+    }
+  }
+
+  const tags = Array.from(tagSet);
+  tags.sort();
+
+  return tags;
+}
+
 export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
   projects,
 }) => {
   return (
     <Page title="Projects" moduleScripts={["/js/project-search-sidebar.js"]}>
-      <nav is="project-search-sidebar"></nav>
+      <nav>
+        <project-search-sidebar>
+          <label htmlFor="search" className="sr-only">
+            Search projects
+          </label>
+          <input type="text" placeholder="Search" id="search" />
+          <ul>
+            {getTagList(projects).map((tag) => (
+              <li key={tag}>
+                <button className="link">{tag}</button>
+              </li>
+            ))}
+          </ul>
+        </project-search-sidebar>
+      </nav>
       <main>
         {projects.map((project) => {
           return <ProjectContent key={project.name} data={project} />;

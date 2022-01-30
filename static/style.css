@@ -4,12 +4,15 @@ body {
   font-family: serif;
 }
 
-a {
+a,
+button.link {
   color: inherit;
 }
 
 a:hover,
-a:focus {
+a:focus,
+button.link:hover,
+button.link:focus {
   background-color: #f0f0f0;
 }
 
@@ -106,4 +109,33 @@ ul.comma-separated > li {
 
 ul.comma-separated > li:not(:last-child)::after {
   content: ", ";
+}
+
+/* https://webaim.org/techniques/css/invisiblecontent/ */
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+input[type="text"] {
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button.link {
+  font-family: inherit;
+  font-size: inherit;
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
+  background: inherit;
+}
+
+project-search-sidebar:not([active]) {
+  display: none;
 }
