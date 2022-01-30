@@ -107,7 +107,8 @@ export class StaticRenderer {
     }
     this._currentPage = friendlyPath;
     currentStaticRenderer = this;
-    this.renderedPages.set(friendlyPath, renderToStaticMarkup(root));
+    const html = `<!DOCTYPE html>${renderToStaticMarkup(root)}`;
+    this.renderedPages.set(friendlyPath, html);
     currentStaticRenderer = undefined;
     this._currentPage = undefined;
   }
