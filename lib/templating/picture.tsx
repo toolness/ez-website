@@ -1,7 +1,7 @@
 import path from "path";
 import React from "react";
 import { CachedFile } from "../cache-file.js";
-import { linkToGrayscaleThumbnail } from "../image-transformers.js";
+import { linkToThumbnail } from "../image-transformers.js";
 import { StaticRenderer } from "./static-renderer.js";
 
 const IMAGES_DIR = "/images";
@@ -9,7 +9,7 @@ const THUMBNAILS_DIR = `${IMAGES_DIR}/thumbnails`;
 
 export const Picture: React.FC<{ source: CachedFile }> = ({ source }) => {
   const filename = path.basename(source.path);
-  const thumbnail = linkToGrayscaleThumbnail({
+  const thumbnail = linkToThumbnail({
     renderer: StaticRenderer.current,
     source,
     friendlyRootDir: THUMBNAILS_DIR,

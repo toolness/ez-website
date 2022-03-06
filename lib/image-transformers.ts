@@ -8,10 +8,7 @@ const MAX_THUMBNAIL_SIZE: Dimensions = { width: 640, height: 480 };
 
 const THUMBNAIL_QUALITY = 60;
 
-const grayscaleThumbnail: BinaryAssetTransformer = async (
-  source,
-  destination
-) => {
+const thumbnail: BinaryAssetTransformer = async (source, destination) => {
   const image = await Jimp.read(source);
 
   // https://github.com/oliver-moran/jimp/issues/920
@@ -32,7 +29,7 @@ const grayscaleThumbnail: BinaryAssetTransformer = async (
     image.resize(resized.width, resized.height);
   }
 
-  await image.greyscale().quality(THUMBNAIL_QUALITY).writeAsync(destination);
+  await image.quality(THUMBNAIL_QUALITY).writeAsync(destination);
 };
 
 function getFilenameStem(filename: string): string {
@@ -66,7 +63,7 @@ function getScaleToFitSize(args: {
   };
 }
 
-export function linkToGrayscaleThumbnail(args: {
+export function linkToThumbnail(args: {
   renderer: StaticRenderer;
   source: CachedFile;
   /**
@@ -80,7 +77,7 @@ export function linkToGrayscaleThumbnail(args: {
   const thumbnailFilename = `${stem}.jpg`;
   const src = renderer.linkToBinaryAsset({
     source: source.path,
-    transformer: grayscaleThumbnail,
+    transformer: thumbnail,
     friendlyPath: `${friendlyRootDir}/${thumbnailFilename}`,
   });
   const { imageSize } = source.metadata;
