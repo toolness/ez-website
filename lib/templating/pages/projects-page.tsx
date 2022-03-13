@@ -61,6 +61,9 @@ export const ProjectsPage: React.FC<{ projects: ProjectAsset[] }> = ({
 };
 
 const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
+  // TODO: Make this include year end, if it exists.
+  const dateContent = <>{data.years.start}</>;
+
   return (
     <>
       <details>
@@ -74,16 +77,21 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
               ))}
             </ul>
           </span>
-          <span className="hidden-on-mobile">{data.years.start}</span>
+          <span className="hidden-on-mobile">{dateContent}</span>
         </summary>
         <div className="project-full-details">
-          <div className="project-description">
-            <NotionPageAssetContent data={data} />
-          </div>
           <div className="project-pictures">
             {data.pictures.map((picture, i) => {
               return <Picture key={i} source={picture} />;
             })}
+          </div>
+          <div className="project-description">
+            <div className="only-on-mobile">
+              {data.context}
+              <br />
+              {dateContent}
+            </div>
+            <NotionPageAssetContent data={data} />
           </div>
         </div>
       </details>
