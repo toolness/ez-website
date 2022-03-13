@@ -126,6 +126,8 @@ input[type="text"] {
   font-family: inherit;
   font-size: inherit;
   border-bottom: 1px dotted gray;
+  display: block;
+  width: 100%;
 }
 
 input[type="text"]:focus {
