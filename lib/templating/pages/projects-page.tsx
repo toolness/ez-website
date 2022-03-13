@@ -32,7 +32,7 @@ const ProjectSearchSidebar: React.FC<{ projects: ProjectAsset[] }> = ({
         </label>
         <input type="text" placeholder="Search" id="search" />
       </form>
-      <ul>
+      <ul className="hidden-on-mobile">
         {tags.map((tag) => (
           <li key={tag}>
             <button className="link">{tag}</button>
@@ -66,7 +66,7 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
       <details>
         <summary className="project">
           <span>{data.name}</span>
-          <span>{data.context}</span>
+          <span className="hidden-on-mobile">{data.context}</span>
           <span>
             <ul className="comma-separated">
               {data.tags.map((tag) => (
@@ -74,7 +74,7 @@ const ProjectContent: React.FC<{ data: ProjectAsset }> = ({ data }) => {
               ))}
             </ul>
           </span>
-          <span>{data.years.start}</span>
+          <span className="hidden-on-mobile">{data.years.start}</span>
         </summary>
         <div className="project-full-details">
           <div className="project-description">

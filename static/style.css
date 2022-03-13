@@ -183,3 +183,25 @@ project-search-sidebar:not([active]) {
 .project-pictures a ~ a {
   margin-top: 1em;
 }
+
+@media only screen and (max-width: 640px) {
+  .hidden-on-mobile {
+    display: none;
+  }
+
+  .page-wrapper {
+    display: block;
+  }
+
+  .page-wrapper > * {
+    padding-bottom: 1em;
+  }
+
+  summary.project {
+    grid-template-columns: 50% 0% 50% 0%;
+  }
+
+  .project-full-details {
+    display: block;
+  }
+}
