@@ -88,7 +88,8 @@ details > summary:focus {
 
 summary.project {
   display: grid;
-  grid-template-columns: 40% 25% 25% 10%;
+  grid-template-columns: calc(40% - 1em) calc(25% - 1em) calc(25% - 1em) 10%;
+  column-gap: 1em;
 }
 
 summary.project > span:last-child {
@@ -206,7 +207,7 @@ project-search-sidebar:not([active]) {
   }
 
   summary.project {
-    grid-template-columns: 50% 0% 50% 0%;
+    grid-template-columns: calc(50% - 1em) 50%;
   }
 
   .project-full-details {
