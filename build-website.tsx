@@ -1,5 +1,7 @@
 import fs from "fs";
 import path from "path";
+import postcss from "postcss";
+import autoprefixer from "autoprefixer";
 import React from "react";
 import {
   copyAndTransformBinaryAsset,
@@ -36,6 +38,23 @@ function validateSiteLinks(renderer: StaticRenderer) {
   }
 }
 
+async function buildCss() {
+  const SOURCE_CSS = "css/style.css";
+  const DEST_CSS = path.join(STATIC_DIR, "style.css");
+  const DEST_CSS_MAP = `${DEST_CSS}.map`;
+  const css = fs.readFileSync(SOURCE_CSS, { encoding: "utf-8" });
+  const result = await postcss([autoprefixer]).process(css, {
+    from: SOURCE_CSS,
+    to: DEST_CSS,
+  });
+  fs.writeFileSync(DEST_CSS, result.css);
+  console.log(`Wrote ${DEST_CSS}.`);
+  if (result.map) {
+    fs.writeFileSync(DEST_CSS_MAP, result.map.toString());
+    console.log(`Wrote ${DEST_CSS_MAP}.`);
+  }
+}
+
 async function exportSite(renderer: StaticRenderer) {
   for (const binaryAsset of renderer.getBinaryAssets()) {
     if (await copyAndTransformBinaryAsset(binaryAsset)) {
@@ -50,6 +69,7 @@ async function exportSite(renderer: StaticRenderer) {
     console.log(`WARNING: ${warning}`);
   }
   validateSiteLinks(renderer);
+  await buildCss();
   console.log(`The generated website is in ${STATIC_DIR}.`);
 }
 
