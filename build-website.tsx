@@ -1,8 +1,5 @@
 import fs from "fs";
 import path from "path";
-import postcss from "postcss";
-import autoprefixer from "autoprefixer";
-import tailwindcss from "tailwindcss";
 import React from "react";
 import {
   copyAndTransformBinaryAsset,
@@ -22,6 +19,7 @@ import "dotenv/config";
 import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path.js";
 import { CollaborationsPage } from "./lib/templating/pages/collaborations-page.js";
 import { BioPage } from "./lib/templating/pages/bio-page.js";
+import { buildCss } from "./lib/css.js";
 
 function validateSiteLinks(renderer: StaticRenderer) {
   let brokenLinks: PageLink[] = [];
@@ -36,23 +34,6 @@ function validateSiteLinks(renderer: StaticRenderer) {
   }
   if (brokenLinks.length) {
     throw new Error("Broken links found! See above for more details.");
-  }
-}
-
-async function buildCss() {
-  const SOURCE_CSS = "css/style.css";
-  const DEST_CSS = path.join(STATIC_DIR, "style.css");
-  const DEST_CSS_MAP = `${DEST_CSS}.map`;
-  const css = fs.readFileSync(SOURCE_CSS, { encoding: "utf-8" });
-  const result = await postcss([autoprefixer, tailwindcss]).process(css, {
-    from: SOURCE_CSS,
-    to: DEST_CSS,
-  });
-  fs.writeFileSync(DEST_CSS, result.css);
-  console.log(`Wrote ${DEST_CSS}.`);
-  if (result.map) {
-    fs.writeFileSync(DEST_CSS_MAP, result.map.toString());
-    console.log(`Wrote ${DEST_CSS_MAP}.`);
   }
 }
 
