@@ -68,8 +68,8 @@ async function exportSite(renderer: StaticRenderer) {
   for (const warning of renderer.warnings) {
     console.log(`WARNING: ${warning}`);
   }
-  validateSiteLinks(renderer);
   await buildCss();
+  validateSiteLinks(renderer);
   console.log(`The generated website is in ${STATIC_DIR}.`);
 }
 
