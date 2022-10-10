@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch": "npm run js:build && node cache-data.js",
     "build-website": "node build-website.js",
-    "build-website:watch": "nodemon --delay 250ms --watch data/_cache-data-completed.txt --watch build-website.js --watch lib --watch css build-website.js",
+    "build-website:watch": "nodemon --delay 250ms --watch data/_cache-data-completed.txt --watch build-website.js --watch lib --watch css/*.css build-website.js",
     "watch": "concurrently --kill-others \"npm run js:watch\" \"npm run build-website:watch\" \"http-server -c-1 static\"",
     "prettier:check": "prettier --check .",
     "prettier:fix": "prettier --write .",
