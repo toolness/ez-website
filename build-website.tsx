@@ -19,6 +19,7 @@ import "dotenv/config";
 import { friendlyPathToFilesystemPath } from "./lib/templating/webpage-path.js";
 import { CollaborationsPage } from "./lib/templating/pages/collaborations-page.js";
 import { BioPage } from "./lib/templating/pages/bio-page.js";
+import { buildCss } from "./lib/css.js";
 
 function validateSiteLinks(renderer: StaticRenderer) {
   let brokenLinks: PageLink[] = [];
@@ -49,6 +50,7 @@ async function exportSite(renderer: StaticRenderer) {
   for (const warning of renderer.warnings) {
     console.log(`WARNING: ${warning}`);
   }
+  await buildCss();
   validateSiteLinks(renderer);
   console.log(`The generated website is in ${STATIC_DIR}.`);
 }
