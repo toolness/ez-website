@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import postcss from "postcss";
 import autoprefixer from "autoprefixer";
+import tailwindcss from "tailwindcss";
 import React from "react";
 import {
   copyAndTransformBinaryAsset,
@@ -43,7 +44,7 @@ async function buildCss() {
   const DEST_CSS = path.join(STATIC_DIR, "style.css");
   const DEST_CSS_MAP = `${DEST_CSS}.map`;
   const css = fs.readFileSync(SOURCE_CSS, { encoding: "utf-8" });
-  const result = await postcss([autoprefixer]).process(css, {
+  const result = await postcss([autoprefixer, tailwindcss]).process(css, {
     from: SOURCE_CSS,
     to: DEST_CSS,
   });

@@ -6,7 +6,7 @@ export const BioPage: React.FC<{}> = () => {
     <Page title="Bio">
       <>
         <nav></nav>
-        <main>TODO: Implement bio page.</main>
+        <main><div className="text-3xl font-bold underline">TODO: Implement bio page.</div></main>
       </>
     </Page>
   );
